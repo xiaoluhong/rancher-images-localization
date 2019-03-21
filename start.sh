@@ -15,7 +15,7 @@ docker login --username=${ALI_DOCKER_USERNAME}  -p${ALI_DOCKER_PASSWORD} ${REGIS
 for IMGS in $( echo ${IMAGES} );
 do 
     envsubst '${IMGS}' < Dockerfile.template > Dockerfile
-    docker docker build -t ${IMGS} .
+    docker build -t ${IMGS} .
     
     n=$( echo ${IMGS} | awk -F"/" '{print NF-1}' )
 
