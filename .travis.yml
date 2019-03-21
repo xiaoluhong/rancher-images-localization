@@ -15,5 +15,5 @@ services:
 before_install:
   - sudo apt-get update
   - sudo pip install shyaml
-  - sudo apt-get install jq curl gettext-base
+  - sudo apt-get install jq curl gettext-base sed
   - chmod +x start.sh 
