@@ -1,6 +1,6 @@
-#!/bin/bash -xe
+#!/bin/bash 
 
-NS=cnrancher
+NS=rancher
 RANCHER_VERSION=v2.1.7
 
 ALI_DOCKER_USERNAME=$ALI_DOCKER_USERNAME
