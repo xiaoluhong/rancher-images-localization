@@ -15,6 +15,5 @@ services:
 before_install:
   - sudo apt-get update
   - sudo pip install shyaml
-  - sudo apt-get install jq curl
-  - curl -L -o /usr/local/bin/envsubst https://github.com/a8m/envsubst/releases/download/v1.1.0/envsubst-Linux-x86_64
-  - chmod +x start.sh /usr/local/bin/envsubst
+  - sudo apt-get install jq curl gettext-base
+  - chmod +x start.sh 
