@@ -6,7 +6,7 @@ RANCHER_VERSION=v2.1.7
 ALI_DOCKER_USERNAME=$ALI_DOCKER_USERNAME
 ALI_DOCKER_PASSWORD=$ALI_DOCKER_PASSWORD
 
-REGISTRY=registry.cn-shenzhen.aliyuncs.com
+REGISTRY=registry.cn-shanghai.aliyuncs.com
 
 IMAGES=$( curl -L https://github.com/rancher/rancher/releases/download/${RANCHER_VERSION}/rancher-images.txt )
 
