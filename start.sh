@@ -15,9 +15,10 @@ docker login --username=${ALI_DOCKER_USERNAME}  -p${ALI_DOCKER_PASSWORD} ${REGIS
 for IMGS in $( echo ${IMAGES} );
 do 
     cp -rf Dockerfile.template  Dockerfile
-    sed -i "s/IMGS/${IMGS}/g"  Dockerfile
+    sed -i  "s@IMGS@${IMGS}@"  Dockerfile
 
     docker build -t ${IMGS} .
+    rm -rf Dockerfile
     
     n=$( echo ${IMGS} | awk -F"/" '{print NF-1}' )
 
