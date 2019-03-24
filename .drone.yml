@@ -1,0 +1,36 @@
+---
+kind: pipeline
+name: production
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: publish-latest
+  pull: default
+  image: plugins/docker
+  commands:
+  - docker ps -a
+  volumes:
+  - name: dockersock
+    path: /var/run/docker.sock
+  settings:
+    context: .
+    dockerfile: Dockerfile
+    group: publish
+    repo: rancher/docs
+    password:
+      from_secret: ALI_DOCKER_PASSWORD
+    username:
+      from_secret: ALI_DOCKER_USERNAME
+  when:
+    branch:
+    - master
+    event:
+    - push
+    
+volumes:
+- name: dockersock
+  host:
+    path: /var/run/docker.sock
