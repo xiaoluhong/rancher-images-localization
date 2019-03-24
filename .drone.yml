@@ -11,7 +11,7 @@ steps:
   pull: default
   image: plugins/docker
   commands:
-  -  echo $PLUGIN_PASSWORD $PLUGIN_USERNAME > 1 ; cat 1
+  -  docker ps
   settings:
     context: .
     dockerfile: Dockerfile
