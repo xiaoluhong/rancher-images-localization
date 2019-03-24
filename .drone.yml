@@ -11,10 +11,7 @@ steps:
   pull: default
   image: plugins/docker
   commands:
-  - docker ps -a
-  volumes:
-  - name: dockersock
-    path: /var/run/docker.sock
+  -  ls
   settings:
     context: .
     dockerfile: Dockerfile
