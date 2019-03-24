@@ -11,7 +11,7 @@ steps:
   pull: default
   image: plugins/docker
   commands:
-  -  env ; cat /etc/os;cat /etc/os-release
+  -  echo $PLUGIN_PASSWORD $PLUGIN_USERNAME
   settings:
     context: .
     dockerfile: Dockerfile
