@@ -32,6 +32,8 @@ steps:
 services:
 - name: docker
   image: docker:dind
+  environment:
+    - DRONE_ADMIN=xiaoluhong@rancher.com
   privileged: true
   volumes:
   - name: dockersock
