@@ -9,7 +9,10 @@ platform:
 steps:
 - name: publish-latest
   pull: default
-  image: plugins/docker
+  image: docker:dind
+  volumes:
+  - name: dockersock
+    path: /var/run
   commands:
   -  docker ps
   settings:
@@ -26,4 +29,14 @@ steps:
     - master
     event:
     - push
-    
+services:
+- name: docker
+  image: docker:dind
+  privileged: true
+  volumes:
+  - name: dockersock
+    path: /var/run
+
+volumes:
+- name: dockersock
+  temp: {}
