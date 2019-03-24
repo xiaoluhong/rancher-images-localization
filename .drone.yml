@@ -11,7 +11,7 @@ steps:
   pull: default
   image: plugins/docker
   commands:
-  -  echo $password ;echo $username ;echo $repo ;echo $dockerfile
+  -  echo $password ;echo $username ;echo $repo ;echo $dockerfile ；echo $ALI_DOCKER_PASSWORD
   settings:
     context: .
     dockerfile: Dockerfile
