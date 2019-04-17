@@ -9,7 +9,7 @@ ALI_DOCKER_PASSWORD=$ALI_DOCKER_PASSWORD
 
 REGISTRY=registry.cn-shanghai.aliyuncs.com
 
-curl -L https://github.com/rancher/rancher/releases/download/${RANCHER}/rancher-images.txt
+curl -L -o https://github.com/rancher/rancher/releases/download/${RANCHER}/rancher-images.txt
 
 echo ===============================================
 
