@@ -1,8 +1,8 @@
 #!/bin/bash 
 
 NS=rancher
-#RANCHER_VERSION="v2.2.1 v2.2.0 v2.1.8 v2.1.7 v2.1.6 v2.1.5 v2.1.4"
-RANCHER_VERSION="v2.2.2" 
+#RANCHER_VERSION="v2.2.2 v2.2.1 v2.2.0 v2.1.8 v2.1.7 v2.1.6 v2.1.5 v2.1.4"
+RANCHER_VERSION="v2.2.1" 
 
 ALI_DOCKER_USERNAME=$ALI_DOCKER_USERNAME
 ALI_DOCKER_PASSWORD=$ALI_DOCKER_PASSWORD
@@ -16,6 +16,8 @@ curl -LS -o rke https://github.com/rancher/rke/releases/download/$(curl -s https
 chmod +x ./rke
 
 ./rke config --system-images >> ./rancher-images.txt
+
+cat ./rancher-images.txt
 
 sort -u rancher-images.txt -o rancher-images.txt
 
