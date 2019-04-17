@@ -11,7 +11,11 @@ REGISTRY=registry.cn-shanghai.aliyuncs.com
 
 curl -L https://github.com/rancher/rancher/releases/download/${RANCHER}/rancher-images.txt
 
+echo ===============================================
+
 cat ./rancher-images.txt
+
+echo ===============================================
 
 curl -LS -o rke https://github.com/rancher/rke/releases/download/$(curl -s https://api.github.com/repos/rancher/rke/releases/latest | grep tag_name | cut -d '"' -f 4)/rke_linux-amd64 
 
@@ -19,9 +23,17 @@ chmod +x ./rke
 
 ./rke config --system-images >> ./rancher-images.txt
 
+echo ===============================================
+
 cat ./rancher-images.txt
 
+echo ===============================================
+
 sort -u rancher-images.txt -o rancher-images.txt
+
+cat rancher-images.txt
+
+echo ===============================================
 
 for RANCHER in $( echo ${RANCHER_VERSION} );
 do
