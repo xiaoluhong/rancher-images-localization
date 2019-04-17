@@ -1,17 +1,25 @@
 #!/bin/bash 
 
 NS=rancher
-#RANCHER_VERSION="v2.2.1 v2.2.0 v2.1.8 v2.1.7 v2.1.6 v2.1.5"
-RANCHER_VERSION="v2.1.4" 
+#RANCHER_VERSION="v2.2.1 v2.2.0 v2.1.8 v2.1.7 v2.1.6 v2.1.5 v2.1.4"
+RANCHER_VERSION="v2.2.2" 
 
 ALI_DOCKER_USERNAME=$ALI_DOCKER_USERNAME
 ALI_DOCKER_PASSWORD=$ALI_DOCKER_PASSWORD
 
 REGISTRY=registry.cn-shanghai.aliyuncs.com
-    
+
+curl -L https://github.com/rancher/rancher/releases/download/${RANCHER}/rancher-images.txt
+
+curl -LS -o rke https://github.com/rancher/rke/releases/download/$(curl -s https://api.github.com/repos/rancher/rke/releases/latest | grep tag_name | cut -d '"' -f 4)/rke_linux-amd64 
+
+rke config --system-images >> ./rancher-images.txt
+
+sort -u rancher-images.txt -o rancher-images.txt
+
 for RANCHER in $( echo ${RANCHER_VERSION} );
 do
-    IMAGES=$( curl -L https://github.com/rancher/rancher/releases/download/${RANCHER}/rancher-images.txt )
+    IMAGES=$( cat ./rancher-images.txt )
     
     docker login --username=${ALI_DOCKER_USERNAME}  -p${ALI_DOCKER_PASSWORD} ${REGISTRY}
     
