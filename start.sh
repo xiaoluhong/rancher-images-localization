@@ -13,7 +13,7 @@ curl -L https://github.com/rancher/rancher/releases/download/${RANCHER}/rancher-
 
 curl -LS -o rke https://github.com/rancher/rke/releases/download/$(curl -s https://api.github.com/repos/rancher/rke/releases/latest | grep tag_name | cut -d '"' -f 4)/rke_linux-amd64 
 
-./rke config --system-images >> ./rancher-images.txt
+bash ./rke config --system-images >> ./rancher-images.txt
 
 sort -u rancher-images.txt -o rancher-images.txt
 
