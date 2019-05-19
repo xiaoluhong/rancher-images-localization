@@ -48,7 +48,8 @@ do
         cp -rf Dockerfile.template  Dockerfile
         sed -i  "s@IMGS@${IMGS}@"  Dockerfile
     
-        docker build -t ${IMGS} .
+        docker build --build-arg IMGS=${IMGS} -t ${IMGS} .
+
         rm -rf Dockerfile
         
         n=$( echo ${IMGS} | awk -F"/" '{print NF-1}' )
