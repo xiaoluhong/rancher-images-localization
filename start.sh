@@ -1,4 +1,4 @@
-#!/bin/bash 
+#!/bin/bash -x
 
 NS=rancher
 #RANCHER_VERSION="v2.2.2 v2.2.1 v2.2.0 v2.1.8 v2.1.7 v2.1.6 v2.1.5 v2.1.4"
@@ -17,9 +17,9 @@ do
 done
 
 echo ===============================================
-    curl -LS -o rke https://github.com/rancher/rke/releases/download/$(curl -s https://api.github.com/repos/rancher/rke/releases/latest | grep tag_name | cut -d '"' -f 4)/rke_linux-amd64 
-    chmod +x ./rke
-    ./rke config --system-images --all >> ./rancher-images-all.txt
+    curl -LS -o /usr/bin/rke https://github.com/rancher/rke/releases/download/$(curl -s https://api.github.com/repos/rancher/rke/releases/latest | grep tag_name | cut -d '"' -f 4)/rke_linux-amd64 
+    chmod +x /usr/bin/rke
+    rke config --system-images --all >> ./rancher-images-all.txt
     sort -u rancher-images-all.txt -o rancher-images-all.txt
 echo ===============================================
 
