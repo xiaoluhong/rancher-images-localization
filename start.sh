@@ -17,9 +17,9 @@ do
 done
 
 echo ===============================================
-    sudo curl -LS -o /usr/bin/rke https://github.com/rancher/rke/releases/download/$(curl -s https://api.github.com/repos/rancher/rke/releases/latest | grep tag_name | cut -d '"' -f 4)/rke_linux-amd64 
-    sudo chmod +x /usr/bin/rke
-    sudo rke config --system-images --all >> ./rancher-images-all.txt
+    sudo curl -LS -o ./rke https://github.com/rancher/rke/releases/download/$(curl -s https://api.github.com/repos/rancher/rke/releases/latest | grep tag_name | cut -d '"' -f 4)/rke_linux-amd64 
+    sudo chmod +x ./rke
+    sudo ./rke config --system-images --all >> ./rancher-images-all.txt
     sudo sort -u rancher-images-all.txt -o rancher-images-all.txt
 echo ===============================================
 
