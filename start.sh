@@ -4,7 +4,7 @@ NS=rancher
 #RANCHER_VERSION="v2.2.2 v2.2.1 v2.2.0 v2.1.8 v2.1.7 v2.1.6 v2.1.5 v2.1.4"
 # v2.2.5 v2.2.4 v2.2.3 v2.2.2 v2.2.1 v2.2.0 v2.1.8
 
-RANCHER_VERSION="v2.3.2" 
+RANCHER_VERSION="v2.3.3" 
 
 ALI_DOCKER_USERNAME=$ALI_DOCKER_USERNAME
 ALI_DOCKER_PASSWORD=$ALI_DOCKER_PASSWORD
@@ -23,10 +23,9 @@ echo ===============================================
     sudo sort -u rancher-images-all.txt -o rancher-images-all.txt
 echo ===============================================
 
-cat rancher-images-all.txt 
-
 echo ===============================================
 cat rancher-images-all.txt | wc -l 
+cat rancher-images-all.txt 
 echo ===============================================
 
 docker login --username=${ALI_DOCKER_USERNAME}  -p${ALI_DOCKER_PASSWORD} ${REGISTRY}
@@ -34,10 +33,13 @@ IMAGES=$( cat ./rancher-images-all.txt )
 
 for IMGS in $( echo ${IMAGES} );
 do 
+    docker pull ${IMGS}
+    USER=$( docker inspect -f '{{ .ContainerConfig.User }}' ${IMGS} ) 
+    
     cp -rf Dockerfile.template  Dockerfile
     sed -i  "s@IMGS@${IMGS}@"  Dockerfile
 
-    docker build --build-arg IMGS=${IMGS} -t ${IMGS} .
+    docker build --build-arg USER=${USER} -t ${IMGS} .
     rm -rf Dockerfile
     
     n=$( echo ${IMGS} | awk -F"/" '{print NF-1}' )
