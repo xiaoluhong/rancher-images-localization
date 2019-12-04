@@ -1,5 +1,12 @@
 FROM IMGS
 
-COPY run.sh /run.sh
+ARG USER
 
-RUN chmod +x /run.sh && sh /run.sh && rm -rf /run.sh
+USER root
+
+COPY run.sh /run.sh
+RUN chmod +x /run.sh \
+&&  sh /run.sh \
+&&  rm -rf /run.sh
+
+USER ${USER:-root}

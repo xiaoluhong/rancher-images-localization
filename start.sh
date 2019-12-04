@@ -1,43 +1,51 @@
 #!/bin/bash -x
 
-NS=rancher
-#RANCHER_VERSION="v2.2.2 v2.2.1 v2.2.0 v2.1.8 v2.1.7 v2.1.6 v2.1.5 v2.1.4"
-# v2.2.5 v2.2.4 v2.2.3 v2.2.2 v2.2.1 v2.2.0 v2.1.8
-
-RANCHER_VERSION="v2.3.2" 
+# sudo apt-get -y install jq curl gettext-base sed python-yaml
+pip install pyyaml
 
 ALI_DOCKER_USERNAME=$ALI_DOCKER_USERNAME
 ALI_DOCKER_PASSWORD=$ALI_DOCKER_PASSWORD
 
 REGISTRY=registry.cn-shanghai.aliyuncs.com
+NS=cn-goharbor
 
-for RANCHER in $( echo ${RANCHER_VERSION} );
+HARBOR_VERSION=" v1.2.3 v1.2.2 v1.2.1 v1.2.0 " 
+
+for harbor in $( echo ${HARBOR_VERSION} );
 do
-    sudo curl -L https://github.com/rancher/rancher/releases/download/${RANCHER}/rancher-images.txt >> rancher-images-all.txt
+    git clone -b $harbor https://github.com/goharbor/harbor-helm.git
+    cp get-images.py harbor-helm/get-images.py
+    cd harbor-helm
+    python get-images.py values.yaml 
+    cd ..
+    rm -rf harbor-helm
 done
 
 echo ===============================================
-    sudo curl -LS -o ./rke https://github.com/rancher/rke/releases/download/$(curl -s https://api.github.com/repos/rancher/rke/releases/latest | grep tag_name | cut -d '"' -f 4)/rke_linux-amd64 
-    sudo chmod +x ./rke
-    sudo ./rke config --system-images --all >> ./rancher-images-all.txt
-    sudo sort -u rancher-images-all.txt -o rancher-images-all.txt
-echo ===============================================
+    IMAGES_NUM=$( cat /tmp/harbor-images.txt | wc -l )
+    echo $IMAGES_NUM
+    sort -u /tmp/harbor-images.txt -o /tmp/harbor-images.txt
+    cat /tmp/harbor-images.txt
 
-cat rancher-images-all.txt 
-
-echo ===============================================
-cat rancher-images-all.txt | wc -l 
 echo ===============================================
 
 docker login --username=${ALI_DOCKER_USERNAME}  -p${ALI_DOCKER_PASSWORD} ${REGISTRY}
-IMAGES=$( cat ./rancher-images-all.txt )
+HARBOR_IMAGES=$( cat /tmp/harbor-images.txt )
 
-for IMGS in $( echo ${IMAGES} );
+i=0
+for IMGS in $( echo ${HARBOR_IMAGES} );
 do 
+    i=$(( $i + 1 ))
+    echo "第${i}个镜像，总共${IMAGES_NUM}个镜像。 "
+    docker pull ${IMGS}
+
+    USER=$( docker inspect -f '{{ .ContainerConfig.User }}' ${IMGS} ) 
+
     cp -rf Dockerfile.template  Dockerfile
     sed -i  "s@IMGS@${IMGS}@"  Dockerfile
 
-    docker build --build-arg IMGS=${IMGS} -t ${IMGS} .
+    docker build --build-arg USER=${USER} -t ${IMGS} .
+
     rm -rf Dockerfile
     
     n=$( echo ${IMGS} | awk -F"/" '{print NF-1}' )

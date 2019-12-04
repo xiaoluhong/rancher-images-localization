@@ -1,6 +1,12 @@
 ARG IMGS
+ARG USER
 FROM ${IMGS}
 
-COPY run.sh /run.sh
+USER root
 
-RUN chmod +x /run.sh && sh /run.sh && rm -rf /run.sh
+COPY run.sh /run.sh
+RUN chmod +x /run.sh \
+&&  sh /run.sh \
+&&  rm -rf /run.sh
+
+USER ${USER}
