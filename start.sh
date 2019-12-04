@@ -9,9 +9,9 @@ ALI_DOCKER_PASSWORD=$ALI_DOCKER_PASSWORD
 REGISTRY=registry.cn-shanghai.aliyuncs.com
 NS=cn-goharbor
 
-# v1.2.2 v1.2.1 v1.2.0
+# v1.2.3 v1.2.1 v1.2.0
 
-HARBOR_VERSION=" v1.2.3  " 
+HARBOR_VERSION=" v1.2.2  " 
 
 for harbor in $( echo ${HARBOR_VERSION} );
 do
